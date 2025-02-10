@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default  # Change this if you have a specific project
   source:
-    repoURL: 'file:////Users/2pai/auros'  # Use a valid Git URL or local file path
+    repoURL: 'git@github.com:saltcheese-honey/anti-corruption-layers.git'  # Use a valid Git URL or local file path
     targetRevision: main
     path: helm
   destination:
