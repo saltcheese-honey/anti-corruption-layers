@@ -1,14 +1,22 @@
+global:
+  imagePullPolicy: ifNotPresent
+
 api:
+  # API subchart values
+  replicaCount: 1
   image:
     repository: localhost:5000/anticorruption-api
     tag: "latest"
-  replicaCount: 1
+    pullPolicy: ifNotPresent
   service:
     type: ClusterIP
     port: 3000
+  env:
+    POSTGRES_HOST: "anticorruption-layer-postgres" 
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "password"
+    POSTGRES_DB: "mydb"
   configMap:
-    # This is the "Config-as-Code" mapping configuration for the API.
-    # The API will load this content into a ConfigMap that is mounted into the container.
     mapping: |-
       mappings:
         - api_endpoint: /users
@@ -33,14 +41,51 @@ api:
             order_date: date
 
 postgres:
+  replicaCount: 1
   image:
     repository: postgres
     tag: "15-alpine"
-  replicaCount: 1
+    pullPolicy: ifNotPresent
   service:
     type: ClusterIP
     port: 5432
   credentials:
-    user: postgres
-    password: password
-    db: mydb
+    user: "postgres"
+    password: "password"
+    db: "mydb"
+  initSql: |
+    -- init.sql: Create and seed the initial database schema.
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      username VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    INSERT INTO users (username, email) VALUES
+      ('alice', 'alice@example.com'),
+      ('bob', 'bob@example.com'),
+      ('charlie', 'charlie@example.com');
+    
+    CREATE TABLE IF NOT EXISTS data_table (
+      id SERIAL PRIMARY KEY,
+      data_value TEXT NOT NULL,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    INSERT INTO data_table (data_value) VALUES
+      ('Sample Data 1'),
+      ('Sample Data 2'),
+      ('Sample Data 3');
+    
+    CREATE TABLE IF NOT EXISTS orders (
+      order_id SERIAL PRIMARY KEY,
+      customer_id INTEGER NOT NULL,
+      total NUMERIC(10,2) NOT NULL,
+      order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    INSERT INTO orders (customer_id, total) VALUES
+      (1, 100.50),
+      (2, 200.00),
+      (3, 150.75);

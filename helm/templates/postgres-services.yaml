@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: {{ include "postgres.fullname" . }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.postgres.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
+    - port: {{ .Values.postgres.service.port }}
+      targetPort: {{ .Values.postgres.service.port }}
       protocol: TCP
       name: postgres
   selector:

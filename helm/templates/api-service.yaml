@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: {{ include "api.fullname" . }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.api.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
+    - port: {{ .Values.api.service.port }}
+      targetPort: {{ .Values.api.service.port }}
       protocol: TCP
       name: http
   selector:

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ include "postgres.fullname" . }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.postgres.replicaCount }}
   selector:
     matchLabels:
       app: {{ include "postgres.fullname" . }}
@@ -16,17 +16,17 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
+          imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.port }}
+            - containerPort: {{ .Values.postgres.service.port }}
           env:
             - name: POSTGRES_USER
-              value: {{ .Values.env.POSTGRES_USER | quote }}
+              value: {{ .Values.postgres.credentials.user | quote }}
             - name: POSTGRES_PASSWORD
-              value: {{ .Values.env.POSTGRES_PASSWORD | quote }}
+              value: {{ .Values.postgres.credentials.password | quote }}
             - name: POSTGRES_DB
-              value: {{ .Values.env.POSTGRES_DB | quote }}
+              value: {{ .Values.postgres.credentials.db | quote }}
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
