@@ -5,7 +5,7 @@ api:
   # API subchart values
   replicaCount: 1
   image:
-    repository: localhost:5000/anticorruption-api
+    repository: local-registry:5000/anticorruption-api
     tag: "latest"
     pullPolicy: IfNotPresent
   service:
