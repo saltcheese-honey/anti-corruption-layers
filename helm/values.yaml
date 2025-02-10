@@ -1,5 +1,5 @@
 global:
-  imagePullPolicy: ifNotPresent
+  imagePullPolicy: IfNotPresent
 
 api:
   # API subchart values
@@ -7,7 +7,7 @@ api:
   image:
     repository: localhost:5000/anticorruption-api
     tag: "latest"
-    pullPolicy: ifNotPresent
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 3000
@@ -45,7 +45,7 @@ postgres:
   image:
     repository: postgres
     tag: "15-alpine"
-    pullPolicy: ifNotPresent
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 5432
