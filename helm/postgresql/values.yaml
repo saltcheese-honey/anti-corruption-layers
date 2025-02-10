@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: postgres
+  tag: "15-alpine"
+  pullPolicy: {{ .Values.global.imagePullPolicy | default "Always" }}
+
+service:
+  type: ClusterIP
+  port: 5432
+
+env:
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "password"
+  POSTGRES_DB: "mydb"
+
+persistence:
+  enabled: false

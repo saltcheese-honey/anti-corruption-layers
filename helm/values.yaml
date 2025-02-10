@@ -1,0 +1,21 @@
+api:
+  image:
+    repository: localhost:5000/anticorruption-api
+    tag: "latest"
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 3000
+
+postgres:
+  image:
+    repository: postgres
+    tag: "15-alpine"
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 5432
+  credentials:
+    user: postgres
+    password: password
+    db: mydb

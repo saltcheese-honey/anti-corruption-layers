@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: localhost:5000/anticorruption-api
+  tag: "latest"
+  pullPolicy: {{ .Values.global.imagePullPolicy | default "IfNotPresent" }}
+
+service:
+  type: ClusterIP
+  port: 3000
+
+env:
+  POSTGRES_HOST: "anticorruption-layer-postgres"
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "password"
+  POSTGRES_DB: "mydb"
+
+resources: {}
